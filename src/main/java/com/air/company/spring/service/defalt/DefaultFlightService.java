@@ -3,7 +3,6 @@ package com.air.company.spring.service.defalt;
 
 import com.air.company.spring.dto.FlightsDto;
 import com.air.company.spring.entity.Flight;
-import com.air.company.spring.entity.Plane;
 import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.repository.FlightsRepository;
 import com.air.company.spring.service.convertors.FlightsConverter;
@@ -11,10 +10,6 @@ import com.air.company.spring.service.interfaces.FlightsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;

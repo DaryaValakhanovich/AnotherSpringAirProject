@@ -8,6 +8,7 @@ import com.air.company.spring.repository.AccountsRepository;
 import com.air.company.spring.service.interfaces.AccountsService;
 import com.air.company.spring.service.convertors.AccountsConverter;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -88,6 +89,11 @@ public class DefaultAccountsService implements AccountsService, UserDetailsServi
     public AccountsDto findById(Integer id) {
         Optional<Account> accounts = accountsRepository.findById(id);
         return accounts.map(accountsConverter::fromAccountToAccountDto).orElse(null);
+    }
+
+
+    public void delete(AccountsDto accountsDto) {
+        accountsRepository.delete(accountsConverter.fromAccountDtoToAccount(accountsDto));
     }
 
     @Override

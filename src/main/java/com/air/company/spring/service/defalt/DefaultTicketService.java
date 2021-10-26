@@ -1,7 +1,6 @@
 package com.air.company.spring.service.defalt;
 
 import com.air.company.spring.dto.TicketsDto;
-import com.air.company.spring.entity.Account;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.entity.Ticket;
 import com.air.company.spring.exception.ValidationException;
@@ -13,9 +12,6 @@ import com.air.company.spring.service.interfaces.TicketsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.util.List;
 import java.util.Optional;
 
