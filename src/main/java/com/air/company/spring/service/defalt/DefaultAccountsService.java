@@ -8,7 +8,6 @@ import com.air.company.spring.repository.AccountsRepository;
 import com.air.company.spring.service.interfaces.AccountsService;
 import com.air.company.spring.service.convertors.AccountsConverter;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,7 +38,7 @@ public class DefaultAccountsService implements AccountsService, UserDetailsServi
     }
 
     @Override
-    public void saveAccount(Account account) throws ValidationException {
+    public AccountsDto saveAccount(Account account) throws ValidationException {
         validateAccount(account);
         Account userFromDB = accountsRepository.findByEmail(account.getEmail());
         if (userFromDB != null) {
@@ -48,7 +47,7 @@ public class DefaultAccountsService implements AccountsService, UserDetailsServi
         account.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         validateAccount(account);
         account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
-        accountsRepository.save(account);
+        return accountsConverter.fromAccountToAccountDto(accountsRepository.save(account));
     }
 
 

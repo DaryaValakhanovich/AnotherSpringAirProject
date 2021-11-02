@@ -1,5 +1,6 @@
 package com.air.company.spring.service.defalt;
 
+
 import com.air.company.spring.entity.Seat;
 import com.air.company.spring.entity.Ticket;
 import com.air.company.spring.repository.SeatsRepository;
@@ -31,4 +32,10 @@ public class DefaultSeatsService implements SeatsService {
     public List<Seat> findByTicketId(Integer ticketId) {
         return seatsRepository.findAllByTicketId(ticketId);
     }
+
+    public void delete(Seat seat) {
+        seatsRepository.delete(seat);
+    }
+
+
 }

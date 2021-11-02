@@ -8,7 +8,7 @@ import com.air.company.spring.exception.ValidationException;
 public interface AccountsService {
     void makeAdmin(String email) throws ValidationException;
 
-    void saveAccount(Account account) throws ValidationException;
+    AccountsDto saveAccount(Account account) throws ValidationException;
 
     AccountsDto findById(Integer id);
 

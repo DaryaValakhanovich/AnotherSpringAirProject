@@ -1,6 +1,7 @@
 package com.air.company.spring.service.defalt;
 
 
+import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.dto.FlightsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.exception.ValidationException;
@@ -166,5 +167,8 @@ public class DefaultFlightService implements FlightsService {
             }
         }
         return resultFlights;
+    }
+    public void delete(FlightsDto flightsDto) {
+       flightsRepository.delete(flightsConverter.fromFlightDtoToFlight(flightsDto));
     }
 }

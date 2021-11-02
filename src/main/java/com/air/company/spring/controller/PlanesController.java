@@ -4,6 +4,8 @@ import com.air.company.spring.dto.PlanesDto;
 import com.air.company.spring.service.interfaces.PlanesService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,38 +16,33 @@ import java.util.List;
 
 @RequestMapping("/planes")
 @Log
-@Controller
+@RestController
 public class PlanesController {
     @Autowired
     private PlanesService planesService;
 
-    @GetMapping("/findAll")
-    public List<PlanesDto> findAllPlanes() {
+   @GetMapping("/findAll")
+    public ResponseEntity<List<PlanesDto>> findAllPlanes() {
         log.info("Handling find all planes request");
-        return planesService.findAll();
+        return ResponseEntity.ok(planesService.findAll());
     }
 
     @GetMapping("/showPlane/{planeId}")
-    public String findAccountTickets(@PathVariable Integer planeId, Model model) {
+    public ResponseEntity<PlanesDto> findAccountTickets(@PathVariable Integer planeId) {
         log.info("Handling find ticket seats request");
-        model.addAttribute("plane", planesService.findById(planeId));
-        return "showPlaneView";
-    }
-
-    @GetMapping("/createPlane")
-    public String createPlane(Model model) {
-        model.addAttribute("newPlane", new PlanesDto());
-        return "createPlaneView";
+       // model.addAttribute("plane", planesService.findById(planeId));
+        return ResponseEntity.ok(planesService.findById(planeId));
     }
 
     @PostMapping("/createPlane")
-    public String save(@ModelAttribute("newPlane") @Valid PlanesDto plane, Model model){
+    public ResponseEntity<PlanesDto> save(@RequestBody PlanesDto plane){
         try {
-            log.info("Handling save planes: " + planesService.savePlane(plane));
+            plane = planesService.savePlane(plane);
+            log.info("Handling save planes: " + plane);
+            return ResponseEntity.ok(plane);
         } catch (Exception exception){
-            model.addAttribute("errorString", exception.getMessage());
-            return "createPlaneView";
+           // model.addAttribute("errorString", exception.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return "redirect:/";
     }
 }

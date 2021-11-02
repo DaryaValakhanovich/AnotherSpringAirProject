@@ -1,5 +1,6 @@
 package com.air.company.spring.service.defalt;
 
+import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.dto.TicketsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.entity.Ticket;
@@ -77,5 +78,9 @@ public class DefaultTicketService implements TicketsService {
             flight.setPrice(flightsService.getPrice(flight, ticket.getNumberOfSeats()));
         }
         return tickets;
+    }
+
+    public void delete(TicketsDto ticketsDto) {
+        ticketsRepository.delete(ticketsConverter.fromTicketDtoToTicket(ticketsDto));
     }
 }

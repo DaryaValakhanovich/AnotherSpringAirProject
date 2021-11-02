@@ -69,4 +69,7 @@ public class DefaultPlanesService implements PlanesService {
         Optional<Plane> planes = planesRepository.findById(id);
         return planes.map(planesConverter::fromPlaneToPlaneDto).orElse(null);
     }
+    public void delete(PlanesDto planesDto) {
+        planesRepository.delete(planesConverter.fromPlaneDtoToPlane(planesDto));
+    }
 }

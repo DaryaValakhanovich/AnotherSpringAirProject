@@ -20,7 +20,6 @@ public class AccountServiceTest {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @Autowired
     private DefaultAccountsService accountsService;
 

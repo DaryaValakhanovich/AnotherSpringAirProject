@@ -25,7 +25,9 @@ public class Flight {
     private String startAirport;
     @Column(name = "final_airport", length = 250)
     private String finalAirport;
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(
+            cascade = CascadeType.MERGE
+            )
     @JoinColumn(name = "plane_id", referencedColumnName = "id")
     private Plane plane;
     @Transient
