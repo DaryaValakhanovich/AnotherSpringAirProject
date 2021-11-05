@@ -105,6 +105,7 @@ public class TicketController {
         return new ResponseEntity<>(pagedAssembler.toResource(page, assembler), HttpStatus.OK);
     }
 
+
     @GetMapping("/findTicketById/{id}")
     public ResponseEntity<Resource<TicketsDto>> findTicketById(@PathVariable Integer id) {
         log.info("Handling find ticket request");

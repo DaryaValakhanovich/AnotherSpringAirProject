@@ -40,6 +40,8 @@ public class AccountController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
+
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
             //  model.addAttribute("errorString", "Пароли не совпадают");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
