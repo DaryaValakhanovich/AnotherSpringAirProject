@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -23,4 +21,10 @@ public class FlightsDto {
     Plane planes;
     String price;
 
+    public FlightsDto(String departure,  int numberOfFreeSeats, String startAirport, String finalAirport) {
+        this.departure = departure;
+        this.numberOfFreeSeats = numberOfFreeSeats;
+        this.startAirport = startAirport;
+        this.finalAirport = finalAirport;
+    }
 }

@@ -1,7 +1,5 @@
 package com.air.company.spring.service.defalt;
 
-
-import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.dto.FlightsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.exception.ValidationException;
@@ -9,6 +7,7 @@ import com.air.company.spring.repository.FlightsRepository;
 import com.air.company.spring.service.convertors.FlightsConverter;
 import com.air.company.spring.service.interfaces.FlightsService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -45,7 +44,7 @@ public class DefaultFlightService implements FlightsService {
 
     @Override
     public List<FlightsDto> findAll() {
-        return flightsRepository.findAll()
+        return flightsRepository.findAll(Sort.by("Model"))
                 .stream()
                 .map(flightsConverter::fromFlightToFlightDto)
                 .collect(Collectors.toList());

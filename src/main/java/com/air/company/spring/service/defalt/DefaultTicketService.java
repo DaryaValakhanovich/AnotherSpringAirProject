@@ -1,6 +1,5 @@
 package com.air.company.spring.service.defalt;
 
-import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.dto.TicketsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.entity.Ticket;

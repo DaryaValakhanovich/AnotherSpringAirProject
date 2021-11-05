@@ -1,17 +1,13 @@
 package com.air.company.spring.service;
 
-import com.air.company.spring.dto.FlightsDto;
 import com.air.company.spring.dto.TicketsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.entity.Seat;
 import com.air.company.spring.exception.ValidationException;
-import com.air.company.spring.prototypes.FlightPrototype;
-import com.air.company.spring.prototypes.PlanePrototype;
 import com.air.company.spring.prototypes.TicketPrototype;
 import com.air.company.spring.service.convertors.AccountsConverter;
 import com.air.company.spring.service.convertors.FlightsConverter;
 import com.air.company.spring.service.convertors.PlanesConverter;
-import com.air.company.spring.service.convertors.TicketsConverter;
 import com.air.company.spring.service.defalt.*;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -53,7 +49,7 @@ public class TicketServiceTest {
         TicketsDto foundTicket = ticketService.findById(ticketsDto.getId());
         Assertions.assertNotNull(foundTicket);
 
-        Assertions.assertEquals(flight.getNumberOfFreeSeats()-ticketsDto.getNumberOfSeats(), flightService.findById(9).getNumberOfFreeSeats());
+        Assertions.assertEquals(flight.getNumberOfFreeSeats() - ticketsDto.getNumberOfSeats(), flightService.findById(9).getNumberOfFreeSeats());
         Assertions.assertTrue(ticketService.findById(foundTicket.getId()).getActive());
         ticketService.deactivate(foundTicket.getId());
         Assertions.assertFalse(ticketService.findById(foundTicket.getId()).getActive());
@@ -61,7 +57,7 @@ public class TicketServiceTest {
 
         List<Seat> seatList = seatsService.findByTicketId(foundTicket.getId());
         Assertions.assertNotNull(seatList);
-        for (Seat s:seatList) {
+        for (Seat s : seatList) {
             seatsService.delete(s);
         }
 
@@ -72,7 +68,6 @@ public class TicketServiceTest {
     public void findByAccountEmail() {
         Assertions.assertNotNull(ticketService.findByAccountEmail("admin@admin.ru"));
     }
-
 
 
 }

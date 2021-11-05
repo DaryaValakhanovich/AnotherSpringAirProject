@@ -100,6 +100,8 @@ public class FlightServiceTest {
                 (FlightPrototype.testFlight2().getDeparture().toLocalDate(), 1,
                         FlightPrototype.testFlight2().getStartAirport(), FlightPrototype.testFlight2().getFinalAirport());
 
+
+
         Assertions.assertEquals(list.get(0).get(0).getId(), flightsDto1.getId());
         Assertions.assertEquals(list.get(0).get(1).getId(), flightsDto3.getId());
 
@@ -118,7 +120,7 @@ public class FlightServiceTest {
 
         flightService.buyTicket(foundFlight.getId(), 2);
         foundFlight = flightService.findById(flightsDto.getId());
-        Assertions.assertEquals(foundFlight.getNumberOfFreeSeats(), PlanePrototype.testPlane().getNumberOfSeats()-2);
+        Assertions.assertEquals(foundFlight.getNumberOfFreeSeats(), PlanePrototype.testPlane().getNumberOfSeats() - 2);
 
         flightService.returnTicket(flightsDto.getId(), 2);
         foundFlight = flightService.findById(flightsDto.getId());

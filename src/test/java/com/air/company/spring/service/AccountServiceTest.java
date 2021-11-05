@@ -29,8 +29,8 @@ public class AccountServiceTest {
         accountsService.saveAccount(AccountPrototype.testAccount());
         AccountsDto foundAccount = accountsService.findByEmail(AccountPrototype.testAccount().getEmail());
         Assertions.assertNotNull(foundAccount);
-        Assertions.assertEquals(foundAccount.getNumber(),AccountPrototype.testAccount().getNumber());
-        Assertions.assertEquals(foundAccount.getEmail(),AccountPrototype.testAccount().getEmail());
+        Assertions.assertEquals(foundAccount.getNumber(), AccountPrototype.testAccount().getNumber());
+        Assertions.assertEquals(foundAccount.getEmail(), AccountPrototype.testAccount().getEmail());
         Assertions.assertTrue(bCryptPasswordEncoder
                 .matches(AccountPrototype.testAccount().getPassword(), foundAccount.getPassword()));
         Assertions.assertTrue(foundAccount.getRoles().contains(new Role(1L, "ROLE_USER")));
@@ -46,7 +46,7 @@ public class AccountServiceTest {
         Assertions.assertNotNull(foundAccount);
         Assertions.assertTrue(foundAccount.getRoles().contains(new Role(1L, "ROLE_USER")));
         Assertions.assertTrue(foundAccount.getRoles().contains(new Role(2L, "ROLE_ADMIN")));
-       accountsService.delete(foundAccount);
+        accountsService.delete(foundAccount);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class AccountServiceTest {
         accountsService.saveAccount(AccountPrototype.testAccount());
         UserDetails foundAccount = accountsService.loadUserByUsername(AccountPrototype.testAccount().getEmail());
         Assertions.assertNotNull(foundAccount);
-        Assertions.assertEquals(foundAccount.getUsername(),AccountPrototype.testAccount().getEmail());
+        Assertions.assertEquals(foundAccount.getUsername(), AccountPrototype.testAccount().getEmail());
         Assertions.assertTrue(bCryptPasswordEncoder.matches(AccountPrototype.testAccount().getPassword(), foundAccount.getPassword()));
         accountsService.delete(accountsService.findByEmail(AccountPrototype.testAccount().getEmail()));
     }

@@ -2,6 +2,7 @@ package com.air.company.spring.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 

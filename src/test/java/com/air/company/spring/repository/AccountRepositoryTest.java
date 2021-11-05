@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class AccountRepositoryTest {
 
-   @Autowired
+    @Autowired
     private AccountsRepository accountsRepository;
 
 
@@ -23,9 +23,9 @@ public class AccountRepositoryTest {
         accountsRepository.save(AccountPrototype.testAccount());
         Account foundAccount = accountsRepository.findByEmail(AccountPrototype.testAccount().getEmail());
         Assertions.assertNotNull(foundAccount);
-        Assertions.assertEquals(foundAccount.getNumber(),AccountPrototype.testAccount().getNumber());
-        Assertions.assertEquals(foundAccount.getEmail(),AccountPrototype.testAccount().getEmail());
-        Assertions.assertEquals(foundAccount.getPassword(),AccountPrototype.testAccount().getPassword());
+        Assertions.assertEquals(foundAccount.getNumber(), AccountPrototype.testAccount().getNumber());
+        Assertions.assertEquals(foundAccount.getEmail(), AccountPrototype.testAccount().getEmail());
+        Assertions.assertEquals(foundAccount.getPassword(), AccountPrototype.testAccount().getPassword());
         accountsRepository.delete(foundAccount);
     }
 

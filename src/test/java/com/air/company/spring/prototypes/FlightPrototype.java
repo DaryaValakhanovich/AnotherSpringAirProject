@@ -12,8 +12,6 @@ public class FlightPrototype {
         flight.setArrival(LocalDateTime.parse("2000-01-01T12:00"));
         flight.setStartAirport("testFirstAirport");
         flight.setFinalAirport("testFinalAirport");
-      //  flight.setPlane(PlanePrototype.testPlane());
-       // flight.setNumberOfFreeSeats(PlanePrototype.testPlane().getNumberOfSeats());
         return flight;
     }
 
@@ -23,8 +21,6 @@ public class FlightPrototype {
         flight.setArrival(LocalDateTime.parse("2000-01-01T12:00"));
         flight.setStartAirport("testFirstAirport");
         flight.setFinalAirport("ThirdTestAirport");
-        //  flight.setPlane(PlanePrototype.testPlane());
-        // flight.setNumberOfFreeSeats(PlanePrototype.testPlane().getNumberOfSeats());
         return flight;
     }
 
@@ -34,8 +30,6 @@ public class FlightPrototype {
                 .arrival("2000-01-01T12:00")
                 .startAirport("testFirstAirport")
                 .finalAirport("testSecondAirport")
-              //  .planes(PlanePrototype.testPlane())
-
                 .numberOfFreeSeats(PlanePrototype.testPlane().getNumberOfSeats())
                 .build();
     }
@@ -46,8 +40,6 @@ public class FlightPrototype {
                 .arrival("2000-01-01T12:00")
                 .startAirport("ThirdTestAirport")
                 .finalAirport("testSecondAirport")
-                //  .planes(PlanePrototype.testPlane())
-
                 .numberOfFreeSeats(PlanePrototype.testPlane().getNumberOfSeats())
                 .build();
     }
@@ -58,8 +50,6 @@ public class FlightPrototype {
                 .arrival("2000-01-01T14:00")
                 .startAirport("testSecondAirport")
                 .finalAirport("ThirdTestAirport")
-                //  .planes(PlanePrototype.testPlane())
-
                 .numberOfFreeSeats(PlanePrototype.testPlane().getNumberOfSeats())
                 .build();
     }

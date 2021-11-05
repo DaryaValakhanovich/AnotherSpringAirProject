@@ -8,7 +8,6 @@ import com.air.company.spring.repository.AccountsRepository;
 import com.air.company.spring.service.interfaces.AccountsService;
 import com.air.company.spring.service.convertors.AccountsConverter;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,8 +22,7 @@ import static java.util.Objects.isNull;
 @Service
 @AllArgsConstructor
 public class DefaultAccountsService implements AccountsService, UserDetailsService {
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private  final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final AccountsRepository accountsRepository;
     private final AccountsConverter accountsConverter;
