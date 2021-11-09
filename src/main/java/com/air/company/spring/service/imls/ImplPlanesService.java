@@ -1,4 +1,4 @@
-package com.air.company.spring.service.defalt;
+package com.air.company.spring.service.imls;
 
 import com.air.company.spring.dto.PlanesDto;
 import com.air.company.spring.entity.Plane;
@@ -17,7 +17,7 @@ import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
-public class DefaultPlanesService implements PlanesService {
+public class ImplPlanesService implements PlanesService {
 
     private final PlanesRepository planesRepository;
     private final PlanesConverter planesConverter;

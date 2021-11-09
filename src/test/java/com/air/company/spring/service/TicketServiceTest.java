@@ -8,7 +8,7 @@ import com.air.company.spring.prototypes.TicketPrototype;
 import com.air.company.spring.service.convertors.AccountsConverter;
 import com.air.company.spring.service.convertors.FlightsConverter;
 import com.air.company.spring.service.convertors.PlanesConverter;
-import com.air.company.spring.service.defalt.*;
+import com.air.company.spring.service.imls.*;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -23,21 +23,21 @@ import java.util.List;
 public class TicketServiceTest {
 
     @Autowired
-    DefaultTicketService ticketService;
+    ImplTicketService ticketService;
     @Autowired
-    DefaultAccountsService accountsService;
+    ImplAccountsService accountsService;
     @Autowired
     AccountsConverter accountsConverter;
     @Autowired
-    DefaultFlightService flightService;
+    ImplFlightService flightService;
     @Autowired
     FlightsConverter flightsConverter;
     @Autowired
-    DefaultPlanesService planesService;
+    ImplPlanesService planesService;
     @Autowired
     PlanesConverter planesConverter;
     @Autowired
-    DefaultSeatsService seatsService;
+    ImplSeatsService seatsService;
 
     @Test
     public void saveDeactivateTicketTest() throws ValidationException {
@@ -66,7 +66,7 @@ public class TicketServiceTest {
 
     @Test
     public void findByAccountEmail() {
-        Assertions.assertNotNull(ticketService.findByAccountEmail("admin@admin.ru"));
+        Assertions.assertNotNull(ticketService.findBy(TicketPrototype.testTicketDto()));
     }
 
 

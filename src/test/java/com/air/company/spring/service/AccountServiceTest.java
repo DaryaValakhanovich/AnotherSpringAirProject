@@ -4,7 +4,7 @@ import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.entity.Role;
 import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.prototypes.AccountPrototype;
-import com.air.company.spring.service.defalt.DefaultAccountsService;
+import com.air.company.spring.service.imls.ImplAccountsService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ public class AccountServiceTest {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private DefaultAccountsService accountsService;
+    private ImplAccountsService accountsService;
 
 
     @Test

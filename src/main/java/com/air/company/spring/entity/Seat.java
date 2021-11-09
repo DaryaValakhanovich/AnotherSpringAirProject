@@ -14,9 +14,12 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
+
     @Column(name = "number_of_seat")
     private int numberOfSeat;
+
 }

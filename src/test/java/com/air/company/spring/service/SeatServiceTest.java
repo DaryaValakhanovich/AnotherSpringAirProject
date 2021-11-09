@@ -3,8 +3,8 @@ package com.air.company.spring.service;
 import com.air.company.spring.entity.Ticket;
 import com.air.company.spring.prototypes.TicketPrototype;
 import com.air.company.spring.service.convertors.TicketsConverter;
-import com.air.company.spring.service.defalt.DefaultSeatsService;
-import com.air.company.spring.service.defalt.DefaultTicketService;
+import com.air.company.spring.service.imls.ImplSeatsService;
+import com.air.company.spring.service.imls.ImplTicketService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -16,9 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class SeatServiceTest {
     @Autowired
-    DefaultSeatsService seatsService;
+    ImplSeatsService seatsService;
     @Autowired
-    DefaultTicketService ticketService;
+    ImplTicketService ticketService;
     @Autowired
     TicketsConverter ticketsConverter;
 

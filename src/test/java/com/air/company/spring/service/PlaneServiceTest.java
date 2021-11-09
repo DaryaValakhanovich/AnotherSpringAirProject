@@ -3,7 +3,7 @@ package com.air.company.spring.service;
 import com.air.company.spring.dto.PlanesDto;
 import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.prototypes.PlanePrototype;
-import com.air.company.spring.service.defalt.DefaultPlanesService;
+import com.air.company.spring.service.imls.ImplPlanesService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class PlaneServiceTest {
     @Autowired
-    DefaultPlanesService planesService;
+    ImplPlanesService planesService;
 
     @Test
     public void savePlaneTest() throws ValidationException {

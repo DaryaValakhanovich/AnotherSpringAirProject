@@ -51,7 +51,10 @@ public class FlightsController {
         try {
             List<List<Flight>> lists;
             log.info("Handling find right flights request");
-            LocalDate date = LocalDate.parse(flightsDto.getDeparture());
+            LocalDate date = null;
+            if(Objects.nonNull(flightsDto.getDeparture())) {
+                date = LocalDate.parse(flightsDto.getDeparture());
+            }
             List<Flight> flights = flightsService.findRightFlights(date, flightsDto.getNumberOfFreeSeats(),
                     flightsDto.getStartAirport(), flightsDto.getFinalAirport());
             if (flights.isEmpty()) {
@@ -67,22 +70,10 @@ public class FlightsController {
             Page<List<Flight>> page = new PageImpl<>(lists, PageRequest.of(0, 5), 1);
             return new ResponseEntity<>(pagedAssembler.toResource(page, assembler), HttpStatus.OK);
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-
-
-    @GetMapping("/findAll")
-    public ResponseEntity<PagedResources<PlanesDto>> findAllPlanes(@PageableDefault PagedResourcesAssembler pagedAssembler) {
-        log.info("Handling find all planes request");
-        List<PlanesDto> planesDtos = planesService.findAll();
-        Page<PlanesDto> page = new PageImpl<>(planesDtos, PageRequest.of(0, 5), 1);
-        return new ResponseEntity<>(pagedAssembler.toResource(page, assembler), HttpStatus.OK);
-    }
-
-
-
 
 
     @PostMapping("/createFlight")

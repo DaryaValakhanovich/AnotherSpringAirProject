@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
@@ -59,12 +60,14 @@ public class TicketController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/showMyTickets/{email}")
-    public ResponseEntity<PagedResources<Ticket>> findAccountTickets(@PathVariable String email, @PageableDefault PagedResourcesAssembler pagedAssembler) {
+    @GetMapping("/showMyTickets/")
+    public ResponseEntity<PagedResources<TicketsDto>> findAccountTickets(@RequestBody TicketsDto ticketsDto, @PageableDefault PagedResourcesAssembler pagedAssembler) {
+  //  public List<TicketsDto> findAll(@RequestParam(required = false) Integer id, Integer page, Integer size) {
         log.info("Handling find account tickets request");
-        Page<Ticket> page = new PageImpl<>(ticketsService.findByAccountEmail(email),
-                PageRequest.of(0, 5), 1);
+        Page<TicketsDto> page = new PageImpl<>(ticketsService.findBy(ticketsDto),
+                PageRequest.of(0, 5, Sort.Direction.ASC, "id"), 1);
         return new ResponseEntity<>(pagedAssembler.toResource(page, assembler), HttpStatus.OK);
+     //   return ticketsService.getAll(id, page, size);
     }
 
 

@@ -1,8 +1,7 @@
-package com.air.company.spring.service.defalt;
+package com.air.company.spring.service.imls;
 
 
 import com.air.company.spring.dto.SeatsDto;
-import com.air.company.spring.entity.Plane;
 import com.air.company.spring.entity.Seat;
 import com.air.company.spring.entity.Ticket;
 import com.air.company.spring.repository.SeatsRepository;
@@ -16,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class DefaultSeatsService implements SeatsService {
+public class ImplSeatsService implements SeatsService {
     private final SeatsRepository seatsRepository;
     private final SeatsConverter seatsConverter;
 

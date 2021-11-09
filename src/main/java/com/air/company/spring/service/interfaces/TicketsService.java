@@ -13,5 +13,7 @@ public interface TicketsService {
 
     TicketsDto findById(Integer id);
 
-    List<Ticket> findByAccountEmail(String email);
+    List<TicketsDto> findBy(TicketsDto ticketsDto);
+
+    //public List<TicketsDto> getAll(Integer numberOfSeats, Integer page, Integer size);
 }

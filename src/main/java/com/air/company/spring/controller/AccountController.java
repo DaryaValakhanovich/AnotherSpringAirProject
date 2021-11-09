@@ -3,7 +3,7 @@ package com.air.company.spring.controller;
 import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.entity.Account;
 import com.air.company.spring.exception.ValidationException;
-import com.air.company.spring.service.defalt.DefaultAccountsService;
+import com.air.company.spring.service.imls.ImplAccountsService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.*;
@@ -23,7 +23,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Log
 public class AccountController {
     @Autowired
-    private DefaultAccountsService accountsService;
+    private ImplAccountsService accountsService;
 
     @PostMapping("/makeAdmin")
     public ResponseEntity<?> saveAdmin(@RequestBody Account account) {
@@ -40,8 +40,6 @@ public class AccountController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
             //  model.addAttribute("errorString", "Пароли не совпадают");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

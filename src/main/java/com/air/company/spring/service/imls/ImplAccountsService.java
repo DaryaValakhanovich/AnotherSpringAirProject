@@ -1,4 +1,4 @@
-package com.air.company.spring.service.defalt;
+package com.air.company.spring.service.imls;
 
 import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.entity.Account;
@@ -21,7 +21,7 @@ import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
-public class DefaultAccountsService implements AccountsService, UserDetailsService {
+public class ImplAccountsService implements AccountsService, UserDetailsService {
     private  final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final AccountsRepository accountsRepository;

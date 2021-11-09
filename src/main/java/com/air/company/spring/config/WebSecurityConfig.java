@@ -1,6 +1,6 @@
 package com.air.company.spring.config;
 
-import com.air.company.spring.service.defalt.DefaultAccountsService;
+import com.air.company.spring.service.imls.ImplAccountsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    DefaultAccountsService accountsService;
+    ImplAccountsService accountsService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

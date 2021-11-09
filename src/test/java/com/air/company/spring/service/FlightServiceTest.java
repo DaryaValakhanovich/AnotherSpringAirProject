@@ -7,8 +7,8 @@ import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.prototypes.FlightPrototype;
 import com.air.company.spring.prototypes.PlanePrototype;
 import com.air.company.spring.service.convertors.PlanesConverter;
-import com.air.company.spring.service.defalt.DefaultFlightService;
-import com.air.company.spring.service.defalt.DefaultPlanesService;
+import com.air.company.spring.service.imls.ImplFlightService;
+import com.air.company.spring.service.imls.ImplPlanesService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -23,9 +23,9 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 public class FlightServiceTest {
     @Autowired
-    private DefaultFlightService flightService;
+    private ImplFlightService flightService;
     @Autowired
-    private DefaultPlanesService planesService;
+    private ImplPlanesService planesService;
     @Autowired
     private PlanesConverter planesConverter;
 

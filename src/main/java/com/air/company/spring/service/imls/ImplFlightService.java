@@ -1,4 +1,4 @@
-package com.air.company.spring.service.defalt;
+package com.air.company.spring.service.imls;
 
 import com.air.company.spring.dto.FlightsDto;
 import com.air.company.spring.entity.Flight;
@@ -6,25 +6,28 @@ import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.repository.FlightsRepository;
 import com.air.company.spring.service.convertors.FlightsConverter;
 import com.air.company.spring.service.interfaces.FlightsService;
+import com.air.company.spring.service.search.GenericSpecificationsBuilder;
+import com.air.company.spring.service.search.SpecificationFactory;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
-public class DefaultFlightService implements FlightsService {
+public class ImplFlightService implements FlightsService {
     private final FlightsRepository flightsRepository;
     private final FlightsConverter flightsConverter;
+    @Autowired
+    private SpecificationFactory<Flight> flightSpecificationFactory;
 
     @Override
     public FlightsDto findById(Integer id) {
@@ -114,9 +117,20 @@ public class DefaultFlightService implements FlightsService {
 
     @Override
     public List<Flight> findRightFlights(LocalDate departure, int numberOfSeats, String startAirport, String finalAirport) {
-
-        List<Flight> newFlights = flightsRepository.findRightFlights(departure.atStartOfDay(), departure.plusDays(1).atStartOfDay(),
-                numberOfSeats, startAirport, finalAirport);
+        GenericSpecificationsBuilder<Flight> builder = new GenericSpecificationsBuilder<>();
+        if (Objects.nonNull(departure)) {
+            builder.with(flightSpecificationFactory.isBetween("departure", Arrays.asList(departure.atStartOfDay(), departure.plusDays(1).atStartOfDay())));
+        }
+        if (Objects.nonNull(startAirport)) {
+            builder.with(flightSpecificationFactory.isEqual("startAirport", startAirport));
+        }
+        if (Objects.nonNull(finalAirport)) {
+            builder.with(flightSpecificationFactory.isEqual("finalAirport", finalAirport));
+        }
+        if (numberOfSeats>0) {
+            builder.with(flightSpecificationFactory.isGreaterThan("numberOfFreeSeats", numberOfSeats));
+        }
+        List<Flight>  newFlights = flightsRepository.findAll(builder.build());
         for (Flight flight : newFlights) {
             flight.setPrice(getPrice(flight, numberOfSeats));
         }
@@ -135,6 +149,11 @@ public class DefaultFlightService implements FlightsService {
         FlightsDto flightsDto = findById(id);
         flightsDto.setNumberOfFreeSeats(flightsDto.getNumberOfFreeSeats() + numberOfSeats);
         flightsRepository.save(flightsConverter.fromFlightDtoToFlight(flightsDto));
+    }
+
+    @Override
+    public List<FlightsDto> findBy(FlightsDto flightsDto) {
+        return null;
     }
 
     private List<Flight> findDifficultWay(String startAirport, String finalAirport,

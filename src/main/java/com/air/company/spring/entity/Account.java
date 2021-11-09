@@ -15,6 +15,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class Account implements UserDetails {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     @Column(name = "email", unique = true, nullable = false, length = 250)
     private String email;
 
@@ -26,10 +30,6 @@ public class Account implements UserDetails {
 
     @Column(name = "number", unique = true, nullable = false, length = 250)
     private String number;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @Transient
     private String passwordConfirm;
@@ -69,24 +69,12 @@ public class Account implements UserDetails {
         return password;
     }
 
-
     public String getPasswordConfirm() {
         return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     public void addRole(Role role) {
         roles.add(role);
     }
+
 }

@@ -2,7 +2,7 @@ package com.air.company.spring.controller;
 
 import com.air.company.spring.prototypes.AccountPrototype;
 import com.air.company.spring.repository.AccountsRepository;
-import com.air.company.spring.service.defalt.DefaultAccountsService;
+import com.air.company.spring.service.imls.ImplAccountsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
@@ -25,19 +25,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AccountControllerTest {
     MockMvc mockMvc;
     ObjectMapper objectMapper;
-    DefaultAccountsService accountsService;
+    ImplAccountsService accountsService;
     AccountsRepository accountsRepository;
 
     @BeforeEach
     void setUp() {
-        accountsService = mock(DefaultAccountsService.class);
+        accountsService = mock(ImplAccountsService.class);
         mockMvc = MockMvcBuilders.standaloneSetup(new AccountController()).build();
         objectMapper = new ObjectMapper();
     }
 
     @Test
     public void saveUsers() throws Exception {
-        accountsService = mock(DefaultAccountsService.class);
+        accountsService = mock(ImplAccountsService.class);
         mockMvc = MockMvcBuilders.standaloneSetup(new AccountController()).build();
         objectMapper = new ObjectMapper();
         mockMvc.perform(post("/accounts/createUser")
@@ -49,7 +49,7 @@ public class AccountControllerTest {
 
     @Test
     public void makeAdmin() throws Exception {
-        accountsService = mock(DefaultAccountsService.class);
+        accountsService = mock(ImplAccountsService.class);
         accountsRepository = mock(AccountsRepository.class);
         mockMvc = MockMvcBuilders.standaloneSetup(new AccountController()).build();
         objectMapper = new ObjectMapper();

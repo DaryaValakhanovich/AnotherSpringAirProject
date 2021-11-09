@@ -1,6 +1,7 @@
 package com.air.company.spring.service.interfaces;
 
 import com.air.company.spring.dto.FlightsDto;
+import com.air.company.spring.dto.TicketsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.exception.ValidationException;
 
@@ -26,4 +27,6 @@ public interface FlightsService {
     void buyTicket(Integer id, int numberOfSeats);
 
     void returnTicket(Integer id, int numberOfSeats);
+
+    List<FlightsDto> findBy(FlightsDto flightsDto);
 }
