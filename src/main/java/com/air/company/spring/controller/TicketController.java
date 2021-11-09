@@ -62,12 +62,10 @@ public class TicketController {
 
     @GetMapping("/showMyTickets/")
     public ResponseEntity<PagedResources<TicketsDto>> findAccountTickets(@RequestBody TicketsDto ticketsDto, @PageableDefault PagedResourcesAssembler pagedAssembler) {
-  //  public List<TicketsDto> findAll(@RequestParam(required = false) Integer id, Integer page, Integer size) {
         log.info("Handling find account tickets request");
         Page<TicketsDto> page = new PageImpl<>(ticketsService.findBy(ticketsDto),
                 PageRequest.of(0, 5, Sort.Direction.ASC, "id"), 1);
         return new ResponseEntity<>(pagedAssembler.toResource(page, assembler), HttpStatus.OK);
-     //   return ticketsService.getAll(id, page, size);
     }
 
 
@@ -86,8 +84,8 @@ public class TicketController {
 
     @PostMapping("/createTransferTicket")
     public ResponseEntity<PagedResources<TicketsDto>> createTransferTicket(@RequestParam Integer numberOfSeats, String email,
-                                                                 Integer flightListIndex, String departure, String startAirport,
-                                                                 String finalAirport, @PageableDefault PagedResourcesAssembler pagedAssembler) throws ValidationException {
+                                                                           Integer flightListIndex, String departure, String startAirport,
+                                                                           String finalAirport, @PageableDefault PagedResourcesAssembler pagedAssembler) throws ValidationException {
         TicketsDto ticketsDto = new TicketsDto();
         ticketsDto.setAccount(accountsConverter.fromAccountDtoToAccount(accountsService.findByEmail(email)));
         ticketsDto.setNumberOfSeats(numberOfSeats);
