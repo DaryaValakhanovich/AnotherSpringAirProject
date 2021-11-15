@@ -1,12 +1,12 @@
-package com.air.company.spring.service.imls;
+package com.air.company.spring.service.impls;
 
 
 import com.air.company.spring.dto.SeatsDto;
 import com.air.company.spring.entity.Seat;
 import com.air.company.spring.entity.Ticket;
 import com.air.company.spring.repository.SeatsRepository;
-import com.air.company.spring.service.convertors.SeatsConverter;
-import com.air.company.spring.service.interfaces.SeatsService;
+import com.air.company.spring.dto.mappers.SeatsMapper;
+import com.air.company.spring.service.SeatsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,10 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class ImplSeatsService implements SeatsService {
+public class SeatsServiceImpl implements SeatsService {
+
     private final SeatsRepository seatsRepository;
-    private final SeatsConverter seatsConverter;
+    private final SeatsMapper seatsConverter;
 
     @Override
     public void saveSeats(Ticket ticket, int numberOfFirstSeat, int amountOfSeats) {
@@ -46,6 +47,5 @@ public class ImplSeatsService implements SeatsService {
     public void delete(Seat seat) {
         seatsRepository.delete(seat);
     }
-
 
 }

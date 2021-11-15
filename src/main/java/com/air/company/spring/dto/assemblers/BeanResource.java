@@ -1,4 +1,4 @@
-package com.air.company.spring.asamblers;
+package com.air.company.spring.dto.assemblers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;

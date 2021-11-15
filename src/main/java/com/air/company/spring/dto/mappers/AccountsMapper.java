@@ -1,11 +1,11 @@
-package com.air.company.spring.service.convertors;
+package com.air.company.spring.dto.mappers;
 
 import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.entity.Account;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccountsConverter {
+public class AccountsMapper {
     public Account fromAccountDtoToAccount(AccountsDto accountsDto) {
         Account account = new Account();
         account.setId(accountsDto.getId());

@@ -1,4 +1,4 @@
-package com.air.company.spring.service.interfaces;
+package com.air.company.spring.service;
 
 import com.air.company.spring.dto.FlightsDto;
 import com.air.company.spring.dto.TicketsDto;
@@ -28,5 +28,4 @@ public interface FlightsService {
 
     void returnTicket(Integer id, int numberOfSeats);
 
-    List<FlightsDto> findBy(FlightsDto flightsDto);
 }

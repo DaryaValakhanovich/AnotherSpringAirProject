@@ -5,10 +5,10 @@ import com.air.company.spring.entity.Flight;
 import com.air.company.spring.entity.Seat;
 import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.prototypes.TicketPrototype;
-import com.air.company.spring.service.convertors.AccountsConverter;
-import com.air.company.spring.service.convertors.FlightsConverter;
-import com.air.company.spring.service.convertors.PlanesConverter;
-import com.air.company.spring.service.imls.*;
+import com.air.company.spring.dto.mappers.AccountsMapper;
+import com.air.company.spring.dto.mappers.FlightsMapper;
+import com.air.company.spring.dto.mappers.PlanesMapper;
+import com.air.company.spring.service.impls.*;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -23,21 +23,21 @@ import java.util.List;
 public class TicketServiceTest {
 
     @Autowired
-    ImplTicketService ticketService;
+    TicketServiceImpl ticketService;
     @Autowired
-    ImplAccountsService accountsService;
+    AccountsServiceImpl accountsService;
     @Autowired
-    AccountsConverter accountsConverter;
+    AccountsMapper accountsConverter;
     @Autowired
-    ImplFlightService flightService;
+    FlightServiceImpl flightService;
     @Autowired
-    FlightsConverter flightsConverter;
+    FlightsMapper flightsConverter;
     @Autowired
-    ImplPlanesService planesService;
+    PlanesServiceImpl planesService;
     @Autowired
-    PlanesConverter planesConverter;
+    PlanesMapper planesConverter;
     @Autowired
-    ImplSeatsService seatsService;
+    SeatsServiceImpl seatsService;
 
     @Test
     public void saveDeactivateTicketTest() throws ValidationException {

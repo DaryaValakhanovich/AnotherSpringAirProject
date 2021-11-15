@@ -1,16 +1,15 @@
-package com.air.company.spring.service.imls;
+package com.air.company.spring.service.impls;
 
 import com.air.company.spring.dto.FlightsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.repository.FlightsRepository;
-import com.air.company.spring.service.convertors.FlightsConverter;
-import com.air.company.spring.service.interfaces.FlightsService;
+import com.air.company.spring.dto.mappers.FlightsMapper;
+import com.air.company.spring.service.FlightsService;
 import com.air.company.spring.service.search.GenericSpecificationsBuilder;
 import com.air.company.spring.service.search.SpecificationFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,15 +18,14 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
-
 @Service
 @AllArgsConstructor
-public class ImplFlightService implements FlightsService {
-    private final FlightsRepository flightsRepository;
-    private final FlightsConverter flightsConverter;
+public class FlightServiceImpl implements FlightsService {
+
     @Autowired
     private SpecificationFactory<Flight> flightSpecificationFactory;
+    private final FlightsRepository flightsRepository;
+    private final FlightsMapper flightsConverter;
 
     @Override
     public FlightsDto findById(Integer id) {
@@ -37,7 +35,7 @@ public class ImplFlightService implements FlightsService {
 
     @Override
     public FlightsDto saveFlight(FlightsDto flightsDto) throws ValidationException {
-        validateFlightDto(flightsDto);
+        validateDates(flightsDto);
         if (flightsDto.getNumberOfFreeSeats() == 0) {
             flightsDto.setNumberOfFreeSeats(flightsDto.getPlanes().getNumberOfSeats());
         }
@@ -47,7 +45,7 @@ public class ImplFlightService implements FlightsService {
 
     @Override
     public List<FlightsDto> findAll() {
-        return flightsRepository.findAll(Sort.by("Model"))
+        return flightsRepository.findAll()
                 .stream()
                 .map(flightsConverter::fromFlightToFlightDto)
                 .collect(Collectors.toList());
@@ -60,30 +58,11 @@ public class ImplFlightService implements FlightsService {
                 * numberOfSeats * 0.00001);
     }
 
-    private void validateFlightDto(FlightsDto flightsDto) throws ValidationException {
-        if (isNull(flightsDto)) {
-            throw new ValidationException("Object user is null");
-        }
-        if (isNull(flightsDto.getDeparture()) || flightsDto.getDeparture().isEmpty()) {
-            throw new ValidationException("Departure is null");
-        }
-        if (isNull(flightsDto.getArrival()) || flightsDto.getArrival().isEmpty()) {
-            throw new ValidationException("Departure is null");
-        }
+    private void validateDates(FlightsDto flightsDto) throws ValidationException {
         LocalDateTime departure = LocalDateTime.parse(flightsDto.getDeparture());
         LocalDateTime arrival =LocalDateTime.parse(flightsDto.getArrival());
         if (arrival.isBefore(departure) || arrival.isEqual(departure)) {
             throw new ValidationException("Enter correct dates. ");
-        }
-
-        if (isNull(flightsDto.getStartAirport()) || flightsDto.getStartAirport().isEmpty()) {
-            throw new ValidationException("Start airport is null");
-        }
-        if (isNull(flightsDto.getFinalAirport()) || flightsDto.getFinalAirport().isEmpty()) {
-            throw new ValidationException("Final airport is null");
-        }
-        if (isNull(flightsDto.getPlanes()) ) {
-            throw new ValidationException("Plane is null");
         }
     }
 
@@ -151,17 +130,13 @@ public class ImplFlightService implements FlightsService {
         flightsRepository.save(flightsConverter.fromFlightDtoToFlight(flightsDto));
     }
 
-    @Override
-    public List<FlightsDto> findBy(FlightsDto flightsDto) {
-        return null;
-    }
-
     private List<Flight> findDifficultWay(String startAirport, String finalAirport,
                                           List<Flight> allFlights, List<Flight> previousFlights) {
         List<Flight> resultFlights = new ArrayList<>();
         List<Flight> probablyFlights = new ArrayList<>();
         for (Flight currentFlight : allFlights) {
             if (startAirport.equals(currentFlight.getStartAirport())) {
+
                 if (previousFlights.isEmpty() ||
                         previousFlights.get(previousFlights.size() - 1).getArrival()
                                 .isBefore(currentFlight.getDeparture())) {
@@ -189,4 +164,5 @@ public class ImplFlightService implements FlightsService {
     public void delete(FlightsDto flightsDto) {
        flightsRepository.delete(flightsConverter.fromFlightDtoToFlight(flightsDto));
     }
+
 }

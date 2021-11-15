@@ -1,4 +1,4 @@
-package com.air.company.spring.asamblers;
+package com.air.company.spring.dto.assemblers;
 
 import com.air.company.spring.controller.FlightsController;
 import com.air.company.spring.dto.FlightsDto;
@@ -30,4 +30,5 @@ public class FlightResourceAssembler extends ResourceAssemblerSupport<List<Fligh
         resource.add(selfLink);
         return resource;
     }
+
 }

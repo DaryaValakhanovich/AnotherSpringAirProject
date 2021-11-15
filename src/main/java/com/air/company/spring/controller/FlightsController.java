@@ -1,20 +1,18 @@
 package com.air.company.spring.controller;
 
-import com.air.company.spring.asamblers.FlightResourceAssembler;
-import com.air.company.spring.asamblers.PlaneResourceAssembler;
+import com.air.company.spring.dto.assemblers.FlightResourceAssembler;
 import com.air.company.spring.dto.FlightsDto;
-import com.air.company.spring.dto.PlanesDto;
-import com.air.company.spring.dto.SeatsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.exception.ValidationException;
-import com.air.company.spring.service.convertors.PlanesConverter;
-import com.air.company.spring.service.interfaces.FlightsService;
-import com.air.company.spring.service.interfaces.PlanesService;
+import com.air.company.spring.dto.mappers.PlanesMapper;
+import com.air.company.spring.service.FlightsService;
+import com.air.company.spring.service.PlanesService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
@@ -36,18 +34,21 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Log
 @RestController
 public class FlightsController {
+
     @Autowired
     private FlightsService flightsService;
     @Autowired
     private PlanesService planesService;
     @Autowired
-    private PlanesConverter planesConverter;
+    private PlanesMapper planesConverter;
     @Autowired
     private FlightResourceAssembler assembler;
 
 
     @PostMapping("/findFlight")
-    public ResponseEntity<PagedResources<List<Flight>>> findRightFlights(@RequestBody FlightsDto flightsDto,@PageableDefault PagedResourcesAssembler pagedAssembler) {
+    public ResponseEntity<PagedResources<List<Flight>>> findRightFlights(@RequestBody FlightsDto flightsDto,
+                                                                         @PageableDefault PagedResourcesAssembler pagedAssembler,
+                                                                         @RequestParam Integer page, Integer size, String sortField) {
         try {
             List<List<Flight>> lists;
             log.info("Handling find right flights request");
@@ -67,8 +68,8 @@ public class FlightsController {
                 lists = new ArrayList<>();
                 lists.add(flights);
             }
-            Page<List<Flight>> page = new PageImpl<>(lists, PageRequest.of(0, 5), 1);
-            return new ResponseEntity<>(pagedAssembler.toResource(page, assembler), HttpStatus.OK);
+            Page<List<Flight>> flightPage = new PageImpl<>(lists, PageRequest.of(page, size, Sort.Direction.ASC, sortField), 1);
+            return new ResponseEntity<>(pagedAssembler.toResource(flightPage, assembler), HttpStatus.OK);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -99,4 +100,5 @@ public class FlightsController {
                 linkTo(Objects.requireNonNull(ReflectionUtils.findMethod(FlightsController.class, "findFlightById", Integer.class)),
                         id).withSelfRel()), HttpStatus.OK);
     }
+
 }

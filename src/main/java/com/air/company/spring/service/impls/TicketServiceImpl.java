@@ -1,4 +1,4 @@
-package com.air.company.spring.service.imls;
+package com.air.company.spring.service.impls;
 
 import com.air.company.spring.dto.TicketsDto;
 import com.air.company.spring.entity.Flight;
@@ -7,10 +7,10 @@ import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.repository.TicketsRepository;
 import com.air.company.spring.service.search.GenericSpecificationsBuilder;
 import com.air.company.spring.service.search.SpecificationFactory;
-import com.air.company.spring.service.convertors.TicketsConverter;
-import com.air.company.spring.service.interfaces.FlightsService;
-import com.air.company.spring.service.interfaces.SeatsService;
-import com.air.company.spring.service.interfaces.TicketsService;
+import com.air.company.spring.dto.mappers.TicketsMapper;
+import com.air.company.spring.service.FlightsService;
+import com.air.company.spring.service.SeatsService;
+import com.air.company.spring.service.TicketsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,18 +23,17 @@ import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
-public class ImplTicketService implements TicketsService {
-    private final TicketsConverter ticketsConverter;
+public class TicketServiceImpl implements TicketsService {
+
+    @Autowired
+    private SpecificationFactory<Ticket> ticketSpecificationFactory;
+    private final TicketsMapper ticketsConverter;
     private final TicketsRepository ticketsRepository;
     private final FlightsService flightsService;
     private final SeatsService seatsService;
-    @Autowired
-    private SpecificationFactory<Ticket> ticketSpecificationFactory;
-
 
     @Override
-    public TicketsDto saveTicket(TicketsDto ticketsDto) throws ValidationException {
-        validateTicketDto(ticketsDto);
+    public TicketsDto saveTicket(TicketsDto ticketsDto){
         Ticket savedTicket;
         if (ticketsDto.getActive() == null) {
             ticketsDto.setActive(true);
@@ -47,20 +46,6 @@ public class ImplTicketService implements TicketsService {
         return ticketsConverter.fromTicketToTicketDto(ticketsRepository.save(ticketsConverter.fromTicketDtoToTicket(ticketsDto)));
     }
 
-    private void validateTicketDto(TicketsDto ticketsDto) throws ValidationException {
-        if (isNull(ticketsDto)) {
-            throw new ValidationException("Object user is null");
-        }
-        if (isNull(ticketsDto.getAccount())) {
-            throw new ValidationException("Ticket account is empty");
-        }
-        if (ticketsDto.getNumberOfSeats() <= 0) {
-            throw new ValidationException("Wrong number of seats");
-        }
-        if (isNull(ticketsDto.getFlight())) {
-            throw new ValidationException("Ticket flight is empty");
-        }
-    }
 
     @Override
     public void deactivate(Integer id) {
@@ -102,4 +87,5 @@ public class ImplTicketService implements TicketsService {
     public void delete(TicketsDto ticketsDto) {
         ticketsRepository.delete(ticketsConverter.fromTicketDtoToTicket(ticketsDto));
     }
+
 }

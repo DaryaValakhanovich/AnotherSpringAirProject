@@ -6,9 +6,9 @@ import com.air.company.spring.entity.Flight;
 import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.prototypes.FlightPrototype;
 import com.air.company.spring.prototypes.PlanePrototype;
-import com.air.company.spring.service.convertors.PlanesConverter;
-import com.air.company.spring.service.imls.ImplFlightService;
-import com.air.company.spring.service.imls.ImplPlanesService;
+import com.air.company.spring.dto.mappers.PlanesMapper;
+import com.air.company.spring.service.impls.FlightServiceImpl;
+import com.air.company.spring.service.impls.PlanesServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -23,11 +23,11 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 public class FlightServiceTest {
     @Autowired
-    private ImplFlightService flightService;
+    private FlightServiceImpl flightService;
     @Autowired
-    private ImplPlanesService planesService;
+    private PlanesServiceImpl planesService;
     @Autowired
-    private PlanesConverter planesConverter;
+    private PlanesMapper planesConverter;
 
     @Test
     public void saveFlight() throws ValidationException {

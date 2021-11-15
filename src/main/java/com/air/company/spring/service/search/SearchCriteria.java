@@ -13,5 +13,6 @@ public class SearchCriteria {
     private SearchOperation searchOperation;
     private boolean isOrOperation;
     private List<Object> arguments;
+
 }
 

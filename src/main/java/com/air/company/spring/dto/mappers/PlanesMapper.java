@@ -1,11 +1,11 @@
-package com.air.company.spring.service.convertors;
+package com.air.company.spring.dto.mappers;
 
 import com.air.company.spring.dto.PlanesDto;
 import com.air.company.spring.entity.Plane;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlanesConverter {
+public class PlanesMapper {
 
     public Plane fromPlaneDtoToPlane(PlanesDto planesDto) {
         Plane planes = new Plane();

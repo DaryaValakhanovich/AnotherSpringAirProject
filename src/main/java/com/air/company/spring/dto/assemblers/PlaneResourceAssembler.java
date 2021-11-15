@@ -1,4 +1,4 @@
-package com.air.company.spring.asamblers;
+package com.air.company.spring.dto.assemblers;
 
 import com.air.company.spring.controller.PlanesController;
 import com.air.company.spring.dto.PlanesDto;
@@ -15,7 +15,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Component
 public class PlaneResourceAssembler  extends ResourceAssemblerSupport<PlanesDto, BeanResource> {
 
-
     public PlaneResourceAssembler() {
         super(Plane.class, BeanResource.class);
     }
@@ -30,4 +29,5 @@ public class PlaneResourceAssembler  extends ResourceAssemblerSupport<PlanesDto,
         planeResource.add(selfLink);
         return planeResource;
     }
+
 }

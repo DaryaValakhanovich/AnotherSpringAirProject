@@ -1,4 +1,4 @@
-package com.air.company.spring.service.convertors;
+package com.air.company.spring.dto.mappers;
 
 import com.air.company.spring.dto.FlightsDto;
 import com.air.company.spring.entity.Flight;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-public class FlightsConverter {
+public class FlightsMapper {
     public Flight fromFlightDtoToFlight(FlightsDto flightsDto) {
         Flight flight = new Flight();
         flight.setId(flightsDto.getId());

@@ -4,7 +4,7 @@ import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.entity.Role;
 import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.prototypes.AccountPrototype;
-import com.air.company.spring.service.imls.ImplAccountsService;
+import com.air.company.spring.service.impls.AccountsServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -21,12 +21,12 @@ public class AccountServiceTest {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private ImplAccountsService accountsService;
+    private AccountsServiceImpl accountsService;
 
 
     @Test
     public void saveAccountTest() throws ValidationException {
-        accountsService.saveAccount(AccountPrototype.testAccount());
+        accountsService.saveAccount(AccountPrototype.testAccountDto());
         AccountsDto foundAccount = accountsService.findByEmail(AccountPrototype.testAccount().getEmail());
         Assertions.assertNotNull(foundAccount);
         Assertions.assertEquals(foundAccount.getNumber(), AccountPrototype.testAccount().getNumber());
@@ -40,7 +40,7 @@ public class AccountServiceTest {
 
     @Test
     public void makeAccountAdminTest() throws ValidationException {
-        accountsService.saveAccount(AccountPrototype.testAccount());
+        accountsService.saveAccount(AccountPrototype.testAccountDto());
         accountsService.makeAdmin(AccountPrototype.testAccount().getEmail());
         AccountsDto foundAccount = accountsService.findByEmail(AccountPrototype.testAccount().getEmail());
         Assertions.assertNotNull(foundAccount);
@@ -51,7 +51,7 @@ public class AccountServiceTest {
 
     @Test
     public void loadUserByUsernameTest() throws ValidationException {
-        accountsService.saveAccount(AccountPrototype.testAccount());
+        accountsService.saveAccount(AccountPrototype.testAccountDto());
         UserDetails foundAccount = accountsService.loadUserByUsername(AccountPrototype.testAccount().getEmail());
         Assertions.assertNotNull(foundAccount);
         Assertions.assertEquals(foundAccount.getUsername(), AccountPrototype.testAccount().getEmail());

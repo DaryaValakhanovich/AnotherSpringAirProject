@@ -3,7 +3,7 @@ package com.air.company.spring.service;
 import com.air.company.spring.dto.PlanesDto;
 import com.air.company.spring.exception.ValidationException;
 import com.air.company.spring.prototypes.PlanePrototype;
-import com.air.company.spring.service.imls.ImplPlanesService;
+import com.air.company.spring.service.impls.PlanesServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -16,10 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class PlaneServiceTest {
     @Autowired
-    ImplPlanesService planesService;
+    PlanesServiceImpl planesService;
 
     @Test
-    public void savePlaneTest() throws ValidationException {
+    public void savePlaneTest(){
         PlanesDto savedPlane = planesService.savePlane(PlanePrototype.testPlaneDto());
         PlanesDto foundPlane = planesService.findById(savedPlane.getId());
         Assertions.assertEquals(savedPlane, foundPlane);
@@ -27,7 +27,7 @@ public class PlaneServiceTest {
     }
 
     @Test
-    public void findAllTest() throws ValidationException {
+    public void findAllTest(){
         PlanesDto savedPlane = planesService.savePlane(PlanePrototype.testPlaneDto());
         Assertions.assertNotNull(planesService.findAll());
         Assertions.assertFalse(planesService.findAll().isEmpty());

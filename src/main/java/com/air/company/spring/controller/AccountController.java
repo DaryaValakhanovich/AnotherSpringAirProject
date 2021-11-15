@@ -1,29 +1,38 @@
 package com.air.company.spring.controller;
 
+import com.air.company.spring.config.JwtProvider;
 import com.air.company.spring.dto.AccountsDto;
 import com.air.company.spring.entity.Account;
 import com.air.company.spring.exception.ValidationException;
-import com.air.company.spring.service.imls.ImplAccountsService;
+import com.air.company.spring.service.impls.AccountsServiceImpl;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Objects;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-
 
 @RequestMapping("/accounts")
 @RestController
 @Log
 public class AccountController {
+
     @Autowired
-    private ImplAccountsService accountsService;
+    private AccountsServiceImpl accountsService;
+
+    @Autowired
+    private JwtProvider jwtProvider;
+
+    @Autowired
+    public BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/makeAdmin")
     public ResponseEntity<?> saveAdmin(@RequestBody Account account) {
@@ -36,12 +45,11 @@ public class AccountController {
     }
 
     @PostMapping("/createUser")
-    public ResponseEntity<Resource<AccountsDto>> saveUser(@RequestBody Account userForm, BindingResult bindingResult) {
+    public ResponseEntity<Resource<AccountsDto>> saveUser(@RequestBody @Valid AccountsDto userForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
-            //  model.addAttribute("errorString", "Пароли не совпадают");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         try {
@@ -50,6 +58,7 @@ public class AccountController {
                     linkTo(Objects.requireNonNull(ReflectionUtils.findMethod(AccountController.class, "findAccountById", Integer.class)),
                             accountsDto.getId()).withSelfRel()), HttpStatus.OK);
         } catch (ValidationException ex) {
+            System.out.println(ex.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -62,4 +71,16 @@ public class AccountController {
                 linkTo(Objects.requireNonNull(ReflectionUtils.findMethod(AccountController.class, "findAccountById", Integer.class)),
                         id).withSelfRel()), HttpStatus.OK);
     }
+
+    @PostMapping("/auth")
+    public ResponseEntity<?> auth(@RequestBody @Valid AccountsDto userForm) {
+        AccountsDto userEntity = accountsService.findByEmail(userForm.getEmail());
+        if (bCryptPasswordEncoder.matches(userForm.getPassword(), userEntity.getPassword())) {
+            String token = jwtProvider.generateToken(userEntity.getEmail());
+            return new ResponseEntity<>(token, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

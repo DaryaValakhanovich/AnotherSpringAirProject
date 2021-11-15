@@ -1,4 +1,4 @@
-package com.air.company.spring.service.convertors;
+package com.air.company.spring.dto.mappers;
 
 import com.air.company.spring.dto.TicketsDto;
 import com.air.company.spring.entity.Ticket;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class TicketsConverter {
+public class TicketsMapper {
     public Ticket fromTicketDtoToTicket(TicketsDto ticketsDto) {
         Ticket ticket = new Ticket();
         ticket.setId(ticketsDto.getId());

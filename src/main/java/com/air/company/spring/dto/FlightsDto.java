@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,16 +19,11 @@ public class FlightsDto {
     Integer id;
     String departure;
     String arrival;
+    @PositiveOrZero
     int numberOfFreeSeats;
     String startAirport;
     String finalAirport;
     Plane planes;
     String price;
 
-    public FlightsDto(String departure,  int numberOfFreeSeats, String startAirport, String finalAirport) {
-        this.departure = departure;
-        this.numberOfFreeSeats = numberOfFreeSeats;
-        this.startAirport = startAirport;
-        this.finalAirport = finalAirport;
-    }
 }

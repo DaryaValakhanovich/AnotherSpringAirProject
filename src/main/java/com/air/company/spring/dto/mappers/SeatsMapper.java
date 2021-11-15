@@ -1,11 +1,11 @@
-package com.air.company.spring.service.convertors;
+package com.air.company.spring.dto.mappers;
 
 import com.air.company.spring.dto.SeatsDto;
 import com.air.company.spring.entity.Seat;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SeatsConverter {
+public class SeatsMapper {
 
     public Seat fromSeatDtoToSeat(SeatsDto seatsDto) {
         Seat seat = new Seat();

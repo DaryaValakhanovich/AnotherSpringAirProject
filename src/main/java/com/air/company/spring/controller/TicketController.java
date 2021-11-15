@@ -1,16 +1,16 @@
 package com.air.company.spring.controller;
 
-import com.air.company.spring.asamblers.TicketResourceAssembler;
+import com.air.company.spring.dto.assemblers.TicketResourceAssembler;
 import com.air.company.spring.dto.TicketsDto;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.entity.Ticket;
 import com.air.company.spring.exception.ValidationException;
-import com.air.company.spring.service.convertors.AccountsConverter;
-import com.air.company.spring.service.convertors.FlightsConverter;
-import com.air.company.spring.service.convertors.TicketsConverter;
-import com.air.company.spring.service.interfaces.AccountsService;
-import com.air.company.spring.service.interfaces.FlightsService;
-import com.air.company.spring.service.interfaces.TicketsService;
+import com.air.company.spring.dto.mappers.AccountsMapper;
+import com.air.company.spring.dto.mappers.FlightsMapper;
+import com.air.company.spring.dto.mappers.TicketsMapper;
+import com.air.company.spring.service.AccountsService;
+import com.air.company.spring.service.FlightsService;
+import com.air.company.spring.service.TicketsService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +38,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {
+
     @Autowired
     private TicketsService ticketsService;
     @Autowired
@@ -45,11 +46,11 @@ public class TicketController {
     @Autowired
     private FlightsService flightsService;
     @Autowired
-    private AccountsConverter accountsConverter;
+    private AccountsMapper accountsConverter;
     @Autowired
-    private FlightsConverter flightsConverter;
+    private FlightsMapper flightsConverter;
     @Autowired
-    private TicketsConverter ticketsConverter;
+    private TicketsMapper ticketsConverter;
     @Autowired
     private TicketResourceAssembler assembler;
 
@@ -61,11 +62,13 @@ public class TicketController {
     }
 
     @GetMapping("/showMyTickets/")
-    public ResponseEntity<PagedResources<TicketsDto>> findAccountTickets(@RequestBody TicketsDto ticketsDto, @PageableDefault PagedResourcesAssembler pagedAssembler) {
+    public ResponseEntity<PagedResources<TicketsDto>> findAccountTickets(@RequestBody TicketsDto ticketsDto,
+                                                                         @PageableDefault PagedResourcesAssembler pagedAssembler,
+                                                                         @RequestParam Integer page, Integer size, String sortField) {
         log.info("Handling find account tickets request");
-        Page<TicketsDto> page = new PageImpl<>(ticketsService.findBy(ticketsDto),
-                PageRequest.of(0, 5, Sort.Direction.ASC, "id"), 1);
-        return new ResponseEntity<>(pagedAssembler.toResource(page, assembler), HttpStatus.OK);
+        Page<TicketsDto> ticketPage = new PageImpl<>(ticketsService.findBy(ticketsDto),
+                PageRequest.of(page, size, Sort.Direction.ASC, sortField), 1);
+        return new ResponseEntity<>(pagedAssembler.toResource(ticketPage, assembler), HttpStatus.OK);
     }
 
 
@@ -85,7 +88,8 @@ public class TicketController {
     @PostMapping("/createTransferTicket")
     public ResponseEntity<PagedResources<TicketsDto>> createTransferTicket(@RequestParam Integer numberOfSeats, String email,
                                                                            Integer flightListIndex, String departure, String startAirport,
-                                                                           String finalAirport, @PageableDefault PagedResourcesAssembler pagedAssembler) throws ValidationException {
+                                                                           String finalAirport, Integer page, Integer size,
+                                                                           @PageableDefault PagedResourcesAssembler pagedAssembler) throws ValidationException {
         TicketsDto ticketsDto = new TicketsDto();
         ticketsDto.setAccount(accountsConverter.fromAccountDtoToAccount(accountsService.findByEmail(email)));
         ticketsDto.setNumberOfSeats(numberOfSeats);
@@ -102,8 +106,8 @@ public class TicketController {
             resultTickets.add(ticketsConverter.fromTicketDtoToTicket(ticketsDto));
             ticketsDto.setActive(null);
         }
-        Page<Ticket> page = new PageImpl<>(resultTickets, PageRequest.of(0, 5), 1);
-        return new ResponseEntity<>(pagedAssembler.toResource(page, assembler), HttpStatus.OK);
+        Page<Ticket> ticketPage = new PageImpl<>(resultTickets, PageRequest.of(page, size), 1);
+        return new ResponseEntity<>(pagedAssembler.toResource(ticketPage, assembler), HttpStatus.OK);
     }
 
 
@@ -115,4 +119,5 @@ public class TicketController {
                 linkTo(Objects.requireNonNull(ReflectionUtils.findMethod(TicketController.class, "findTicketById", Integer.class)),
                         id).withSelfRel()), HttpStatus.OK);
     }
+
 }

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class GenericSpecification<T> implements Specification<T> {
+
     private SearchCriteria searchCriteria;
 
     public GenericSpecification(final SearchCriteria searchCriteria) {
@@ -32,4 +33,5 @@ public class GenericSpecification<T> implements Specification<T> {
         }
         return null;
     }
+
 }

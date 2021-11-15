@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class GenericSpecificationsBuilder<T> {
+
     private final List<SearchCriteria> params;
     private final List<Specification<T>> specifications;
 
@@ -51,4 +52,5 @@ public class GenericSpecificationsBuilder<T> {
         }
         return result;
     }
+
 }

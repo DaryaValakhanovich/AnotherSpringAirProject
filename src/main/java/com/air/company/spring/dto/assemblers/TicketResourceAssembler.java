@@ -1,4 +1,4 @@
-package com.air.company.spring.asamblers;
+package com.air.company.spring.dto.assemblers;
 
 import com.air.company.spring.controller.TicketController;
 import com.air.company.spring.dto.TicketsDto;
@@ -14,7 +14,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Component
 public class TicketResourceAssembler extends ResourceAssemblerSupport<TicketsDto, BeanResource> {
 
-
     public TicketResourceAssembler() {
         super(TicketsDto.class, BeanResource.class);
     }
@@ -29,4 +28,5 @@ public class TicketResourceAssembler extends ResourceAssemblerSupport<TicketsDto
         resource.add(selfLink);
         return resource;
     }
+
 }

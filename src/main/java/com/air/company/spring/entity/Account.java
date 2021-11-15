@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Set;
 
@@ -30,9 +31,6 @@ public class Account implements UserDetails {
 
     @Column(name = "number", unique = true, nullable = false, length = 250)
     private String number;
-
-    @Transient
-    private String passwordConfirm;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,9 +67,6 @@ public class Account implements UserDetails {
         return password;
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
 
     public void addRole(Role role) {
         roles.add(role);
