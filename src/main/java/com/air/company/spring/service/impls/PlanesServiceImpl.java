@@ -7,8 +7,10 @@ import com.air.company.spring.repository.PlanesRepository;
 import com.air.company.spring.dto.mappers.PlanesMapper;
 import com.air.company.spring.service.PlanesService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,8 +31,8 @@ public class PlanesServiceImpl implements PlanesService {
     }
 
     @Override
-    public List<PlanesDto> findAll() {
-        return planesRepository.findAll()
+    public List<PlanesDto> findAll(String sortField) {
+        return planesRepository.findAll(Sort.by(sortField))
                 .stream()
                 .map(planesConverter::fromPlaneToPlaneDto)
                 .collect(Collectors.toList());

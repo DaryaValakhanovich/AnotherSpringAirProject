@@ -40,7 +40,7 @@ public class TicketServiceTest {
     SeatsServiceImpl seatsService;
 
     @Test
-    public void saveDeactivateTicketTest() throws ValidationException {
+    public void saveDeactivateTicketTest() {
         TicketsDto ticketsDto = TicketPrototype.testTicketDto();
         ticketsDto.setAccount(accountsConverter.fromAccountDtoToAccount(accountsService.findById(1)));
         Flight flight = flightsConverter.fromFlightDtoToFlight(flightService.findById(9));

@@ -29,8 +29,8 @@ public class PlaneServiceTest {
     @Test
     public void findAllTest(){
         PlanesDto savedPlane = planesService.savePlane(PlanePrototype.testPlaneDto());
-        Assertions.assertNotNull(planesService.findAll());
-        Assertions.assertFalse(planesService.findAll().isEmpty());
+        Assertions.assertNotNull(planesService.findAll("id"));
+        Assertions.assertFalse(planesService.findAll("id").isEmpty());
         planesService.delete(savedPlane);
     }
 

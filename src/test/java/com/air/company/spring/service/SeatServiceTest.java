@@ -24,9 +24,7 @@ public class SeatServiceTest {
 
     @Test
     public void Test() {
-        System.out.println(ticketService.findById(9));
         Ticket ticket = ticketsConverter.fromTicketDtoToTicket(ticketService.findById(9));
-        System.out.println(ticket);
         seatsService.saveSeats(ticket,
                 50, TicketPrototype.testTicket().getNumberOfSeats());
         Assertions.assertNotNull(seatsService.findByTicketId(9));

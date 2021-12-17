@@ -2,6 +2,7 @@ package com.air.company.spring.controller;
 
 import com.air.company.spring.dto.assemblers.TicketResourceAssembler;
 import com.air.company.spring.dto.TicketsDto;
+import com.air.company.spring.entity.Account;
 import com.air.company.spring.entity.Flight;
 import com.air.company.spring.entity.Ticket;
 import com.air.company.spring.exception.ValidationException;
@@ -64,8 +65,9 @@ public class TicketController {
     @GetMapping("/showMyTickets/")
     public ResponseEntity<PagedResources<TicketsDto>> findAccountTickets(@RequestBody TicketsDto ticketsDto,
                                                                          @PageableDefault PagedResourcesAssembler pagedAssembler,
-                                                                         @RequestParam Integer page, Integer size, String sortField) {
+                                                                         @RequestParam Integer page, Integer size, String sortField, String email) {
         log.info("Handling find account tickets request");
+        ticketsDto.setAccount(accountsConverter.fromAccountDtoToAccount(accountsService.findByEmail(email)));
         Page<TicketsDto> ticketPage = new PageImpl<>(ticketsService.findBy(ticketsDto),
                 PageRequest.of(page, size, Sort.Direction.ASC, sortField), 1);
         return new ResponseEntity<>(pagedAssembler.toResource(ticketPage, assembler), HttpStatus.OK);
@@ -90,23 +92,24 @@ public class TicketController {
                                                                            Integer flightListIndex, String departure, String startAirport,
                                                                            String finalAirport, Integer page, Integer size,
                                                                            @PageableDefault PagedResourcesAssembler pagedAssembler) throws ValidationException {
-        TicketsDto ticketsDto = new TicketsDto();
-        ticketsDto.setAccount(accountsConverter.fromAccountDtoToAccount(accountsService.findByEmail(email)));
-        ticketsDto.setNumberOfSeats(numberOfSeats);
+        TicketsDto ticketsDto;
         LocalDate date = LocalDate.parse(departure);
 
-        List<List<Flight>> lists = flightsService.findRightDifficultWay(date, numberOfSeats,
-                startAirport, finalAirport);
+        List<List<Flight>> lists = flightsService.findRightDifficultWay(date, numberOfSeats, startAirport, finalAirport);
         List<Flight> newFlights = lists.get(flightListIndex);
-        List<Ticket> resultTickets = new ArrayList<>();
+        List<TicketsDto> resultTickets = new ArrayList<>();
         for (Flight flight : newFlights) {
+            ticketsDto = new TicketsDto();
+            ticketsDto.setAccount(accountsConverter.fromAccountDtoToAccount(accountsService.findByEmail(email)));
+            ticketsDto.setNumberOfSeats(numberOfSeats);
+            ticketsDto.setActive(null);
+            ticketsDto.setId(null);
             ticketsDto.setFlight(flight);
             ticketsDto = ticketsService.saveTicket(ticketsDto);
             log.info("Handling create ticket request: " + ticketsDto);
-            resultTickets.add(ticketsConverter.fromTicketDtoToTicket(ticketsDto));
-            ticketsDto.setActive(null);
+            resultTickets.add(ticketsDto);
         }
-        Page<Ticket> ticketPage = new PageImpl<>(resultTickets, PageRequest.of(page, size), 1);
+        Page<TicketsDto> ticketPage = new PageImpl<>(resultTickets, PageRequest.of(page, size), 1);
         return new ResponseEntity<>(pagedAssembler.toResource(ticketPage, assembler), HttpStatus.OK);
     }
 

@@ -14,9 +14,11 @@ public class AccountPrototype {
 
     public static AccountsDto testAccountDto() {
         return AccountsDto.builder()
+                .id(1)
                 .email("test@email.ru")
                 .number("1111111111")
                 .password("testPassword1")
+                .passwordConfirm("testPassword1")
                 .build();
     }
 }

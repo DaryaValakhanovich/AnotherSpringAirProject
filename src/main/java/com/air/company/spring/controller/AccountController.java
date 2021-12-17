@@ -34,6 +34,10 @@ public class AccountController {
     @Autowired
     public BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    public AccountController(AccountsServiceImpl accountsService) {
+        this.accountsService=accountsService;
+    }
+
     @PostMapping("/makeAdmin")
     public ResponseEntity<?> saveAdmin(@RequestBody Account account) {
         try {

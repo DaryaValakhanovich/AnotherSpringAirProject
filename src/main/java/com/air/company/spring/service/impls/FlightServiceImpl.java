@@ -106,7 +106,7 @@ public class FlightServiceImpl implements FlightsService {
         if (Objects.nonNull(finalAirport)) {
             builder.with(flightSpecificationFactory.isEqual("finalAirport", finalAirport));
         }
-        if (numberOfSeats>0) {
+        if (numberOfSeats > 0) {
             builder.with(flightSpecificationFactory.isGreaterThan("numberOfFreeSeats", numberOfSeats));
         }
         List<Flight>  newFlights = flightsRepository.findAll(builder.build());

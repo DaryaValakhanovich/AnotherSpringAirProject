@@ -46,10 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ только для пользователей с ролью USER
                 .antMatchers("/tickets/showMyTickets/**").hasRole("USER")
                 .antMatchers("/flights/findFlight").hasRole("USER")
-                .antMatchers("/createTicket").hasRole("USER")
-                .antMatchers("/createTransferTicket").hasRole("USER")
+                .antMatchers("/tickets/createTicket").hasRole("USER")
+                .antMatchers("/tickets/createTransferTicket").hasRole("USER")
                 .antMatchers("/tickets/deactivate").hasRole("USER")
-                .antMatchers("/planes/showPlane").hasRole("USER")
                 .antMatchers("/seats/showSeats").hasRole("USER")
                 //Доступ разрешен всем пользователей
                 .antMatchers("/home").permitAll()

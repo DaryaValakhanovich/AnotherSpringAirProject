@@ -34,9 +34,9 @@ public class SeatsController {
     @Autowired
     private SeatResourceAssembler assembler;
 
-    @GetMapping("/showSeats/{ticketId}")
-    public ResponseEntity<PagedResources<Seat>> findAccountTickets(@PathVariable Integer ticketId, @PageableDefault PagedResourcesAssembler pagedAssembler,
-                                                                   @RequestParam Integer page, Integer size, String sortField) {
+    @GetMapping("/showSeats")
+    public ResponseEntity<PagedResources<Seat>> findAccountTickets(@PageableDefault PagedResourcesAssembler pagedAssembler,
+                                                                   @RequestParam Integer ticketId,Integer page, Integer size, String sortField) {
         log.info("Handling find ticket seats request");
         Page<Seat> seatPage = new PageImpl<>(seatsService.findByTicketId(ticketId), PageRequest.of(page, size, Sort.Direction.ASC, sortField), 1);
         return new ResponseEntity<>(pagedAssembler.toResource(seatPage, assembler), HttpStatus.OK);

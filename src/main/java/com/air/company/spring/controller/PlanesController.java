@@ -39,12 +39,12 @@ public class PlanesController {
     public ResponseEntity<PagedResources<PlanesDto>> findAllPlanes(@PageableDefault PagedResourcesAssembler pagedAssembler,
                                                                    @RequestParam Integer page, Integer size, String sortField) {
         log.info("Handling find all planes request");
-        List<PlanesDto> planesDtos = planesService.findAll();
+        List<PlanesDto> planesDtos = planesService.findAll(sortField);
         Page<PlanesDto> planePage = new PageImpl<>(planesDtos, PageRequest.of(page, size, Sort.Direction.ASC, sortField), 1);
         return new ResponseEntity<>(pagedAssembler.toResource(planePage, assembler), HttpStatus.OK);
     }
 
-    @GetMapping("/showPlane/{planeId}")
+    @GetMapping("/findPlaneById/{planeId}")
     public ResponseEntity<Resource<PlanesDto>> findPlaneById(@PathVariable Integer planeId) {
         log.info("Handling find ticket seats request");
         PlanesDto planesDto = planesService.findById(planeId);
